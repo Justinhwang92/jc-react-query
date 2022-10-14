@@ -1,7 +1,5 @@
 # Infinite SWAPI
 
-### A project to demonstrate React Query useInfiniteQuery, for the Udemy course "React Query: Server State Management for React"
-
 ## Installation
 
 #. Download this directory, or clone or fork this repo
