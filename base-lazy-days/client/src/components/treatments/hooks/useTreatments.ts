@@ -16,16 +16,6 @@ export function useTreatments(): Treatment[] {
   const fallback = []; // for when we don't have data yet
 
   // get data from server via useQuery
-  // Error handling with Passing errors to toasts
-  // const { data = fallback } = useQuery(queryKeys.treatments, getTreatments, {
-  //   onError: (error) => {
-  //     const title =
-  //       error instanceof Error ? error.message : 'Error connecting to server';
-  //     toast({ title, status: 'error' }); // show toast on error
-  //   },
-  // });
-
-  // get data from server via useQuery
   const { data = fallback } = useQuery(queryKeys.treatments, getTreatments);
   return data;
 }

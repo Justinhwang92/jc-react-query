@@ -16,6 +16,12 @@ import { AppointmentDateMap } from '../types';
 import { getAvailableAppointments } from '../utils';
 import { getMonthYearDetails, getNewMonthYear, MonthYear } from './monthYear';
 
+// common options for both useQuery and prefetch calls
+const commonQueryOptions = {
+  staleTime: 0,
+  cacheTime: 300000, // 5 minutes
+};
+
 // for useQuery call
 async function getAppointments(
   year: string,
@@ -73,7 +79,7 @@ export function useAppointments(): UseAppointments {
       [queryKeys.appointments, nextMonthYear.year, nextMonthYear.month],
       () => getAppointments(nextMonthYear.year, nextMonthYear.month),
     );
-  }, [monthYear, queryClient]);
+  }, [monthYear, queryClient, commonQueryOptions]);
 
   const fallback = {};
   // useQuery call for appointments for the current monthYear
@@ -83,6 +89,10 @@ export function useAppointments(): UseAppointments {
     {
       // keepPreviousData: true, // keep previous data while fetching new data
       select: showAll ? undefined : selectFn,
+      ...commonQueryOptions,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: true,
     },
   );
 

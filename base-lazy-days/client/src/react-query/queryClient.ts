@@ -16,9 +16,15 @@ function queryErrorHandler(error: unknown): void {
 }
 
 export const queryClient = new QueryClient({
+  // global default options for all queries
   defaultOptions: {
     queries: {
       onError: queryErrorHandler,
+      staleTime: 600000, // 10 minutes
+      cacheTime: 900000, // 15 minutes
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
     },
   },
 });
