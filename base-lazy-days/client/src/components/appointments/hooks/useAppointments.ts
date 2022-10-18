@@ -1,6 +1,12 @@
 // @ts-nocheck
 import dayjs from 'dayjs';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { axiosInstance } from '../../../axiosInstance';
@@ -53,6 +59,11 @@ export function useAppointments(): UseAppointments {
 
   const { user } = useUser();
 
+  // get the available appointments
+  const selectFn = useCallback((data) => getAvailableAppointments(data, user), [
+    user,
+  ]);
+
   const queryClient = useQueryClient();
   useEffect(() => {
     // prefetch the appointments for the next and previous month
@@ -70,7 +81,8 @@ export function useAppointments(): UseAppointments {
     [queryKeys.appointments, monthYear.year, monthYear.month], // query key array (must be unique)
     () => getAppointments(monthYear.year, monthYear.month),
     {
-      keepPreviousData: true, // keep previous data while fetching new data
+      // keepPreviousData: true, // keep previous data while fetching new data
+      select: showAll ? undefined : selectFn,
     },
   );
 
