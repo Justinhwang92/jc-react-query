@@ -78,8 +78,9 @@ export function useAppointments(): UseAppointments {
     queryClient.prefetchQuery(
       [queryKeys.appointments, nextMonthYear.year, nextMonthYear.month],
       () => getAppointments(nextMonthYear.year, nextMonthYear.month),
+      commonQueryOptions,
     );
-  }, [monthYear, queryClient, commonQueryOptions]);
+  }, [monthYear, queryClient]);
 
   const fallback = {};
   // useQuery call for appointments for the current monthYear
@@ -93,7 +94,6 @@ export function useAppointments(): UseAppointments {
       refetchOnMount: true,
       refetchOnReconnect: true,
       refetchOnWindowFocus: true,
-      refetchInterval: 60000, // polling and auto refetching every minute
     },
   );
 

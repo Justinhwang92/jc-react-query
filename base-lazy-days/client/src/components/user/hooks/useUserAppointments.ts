@@ -1,10 +1,8 @@
-import dayjs from 'dayjs';
 import { useQuery } from 'react-query';
 
 import type { Appointment, User } from '../../../../../shared/types';
 import { axiosInstance, getJWTHeader } from '../../../axiosInstance';
 import { queryKeys } from '../../../react-query/constants';
-import { UserAppointments } from '../UserAppointments';
 import { useUser } from './useUser';
 
 // query function
@@ -23,7 +21,7 @@ export function useUserAppointments(): Appointment[] {
 
   const fallback: Appointment[] = [];
   const { data: userAppointments = fallback } = useQuery(
-    'user-appointments',
+    [queryKeys.userAppointments, queryKeys.user, user?.id],
     () => getUserAppointments(user),
     { enabled: !!user },
   );
